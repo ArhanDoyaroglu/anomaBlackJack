@@ -1,0 +1,136 @@
+:root{ --bg:#0f172a; --felt:#0b5; --felt-2:#0a4; --panel:#111827; --text:#e5e7eb; --muted:#94a3b8; --accent:#f59e0b; --danger:#ef4444; --ok:#22c55e }
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+  color:var(--text);
+  background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+    url('blackjackbglast.jpg') center/cover fixed no-repeat;
+}
+
+#app{ max-width:1024px; margin:0 auto; padding:20px 16px 32px; display:flex; flex-direction:column; gap:16px }
+.app-header{ display: none; }
+.balance-badge{ 
+  position:fixed; 
+  top:12px; 
+  right:12px; 
+  background:rgba(0,0,0,.5); 
+  border:1px solid rgba(255,255,255,.08); 
+  padding:6px 12px; 
+  border-radius:999px; 
+  font-weight:700; 
+  z-index:2; 
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #10b981;
+  text-shadow: 0 1px 2px rgba(0,0,0,.5);
+}
+.currency-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
+
+.table{ display:flex; flex-direction:column; gap:18px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px }
+.area{ background:rgba(0,0,0,.20); border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:12px }
+.area-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px }
+.area h2{ margin:0; font-size:18px; color:#d1fae5 }
+.score{ color:var(--muted); font-weight:600 }
+
+.cards{ display:flex; flex-wrap:wrap; gap:10px; min-height:94px }
+.card{ width:70px; height:94px; border-radius:8px; background:#fff; color:#111; display:grid; place-items:center; position:relative; box-shadow:0 10px 25px rgba(0,0,0,.25); border:2px solid #e5e7eb; transform:translateY(10px); opacity:0; animation:pop .25s forwards; overflow:hidden }
+.card img{ width:100%; height:100%; object-fit:cover; display:block }
+.card.back{ background:#0b6c3b; border-color:#14532d }
+
+@keyframes pop{ to{ transform:none; opacity:1 } }
+
+.status{ text-align:center; padding:10px; border-radius:10px; background:rgba(0,0,0,.25); border:1px dashed rgba(255,255,255,.2); color:#fef3c7 }
+.bet-controls{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:4px }
+.bet-controls label{ font-size:12px; color:#e5e7eb; opacity:.85 }
+.bet-controls input{ width:120px; text-align:center; padding:8px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:rgba(0,0,0,.35); color:#fff }
+.chip-row{ display:flex; gap:8px; flex-wrap:wrap }
+.chip{ appearance:none; border:0; padding:6px 10px; border-radius:999px; background:#1f2937; color:#fff; border:1px solid rgba(255,255,255,.12); cursor:pointer; font-weight:700 }
+.chip.clear{ background:#7f1d1d }
+
+.controls{ display:flex; align-items:center; gap:10px; position:sticky; bottom:0; margin-top:8px; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:12px; backdrop-filter: blur(6px) }
+.spacer{ flex:1 }
+.btn{ appearance:none; border:0; background:#334155; color:white; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; transition:.2s; border:2px solid transparent }
+.btn:hover{ filter:brightness(1.1) }
+.btn:disabled{ opacity:.5; cursor:not-allowed }
+.btn.primary{ background:linear-gradient(180deg,#0ea5e9,#0284c7); border-color:#0ea5e9 }
+.btn.primary:disabled{ background:#475569; border-color:#475569 }
+
+/* Dairesel masa düzeni */
+.circle-table{ display:grid; place-items:center; min-height:68vh }
+.table-felt{ position:relative; width:min(92vw, 880px); aspect-ratio:1/1; border-radius:50%; background:
+  url('bjTable.png') center/contain no-repeat,
+  radial-gradient(60% 60% at 50% 45%, #0c914d 0%, #0b6c3b 55%, #094b2b 85%),
+  repeating-radial-gradient( circle at 50% 45%, rgba(255,255,255,.06), rgba(255,255,255,.06) 2px, rgba(255,255,255,0) 3px, rgba(255,255,255,0) 14px );
+  box-shadow:inset 0 0 0 6px rgba(0,0,0,.35), 0 30px 80px rgba(0,0,0,.5); border:2px solid rgba(0,0,0,.7); pointer-events:auto; }
+.table-felt::after{ content:""; position:absolute; inset:16px; border-radius:50%; border:2px dashed rgba(255,255,255,.08); pointer-events:none }
+
+.seat{ position:absolute; width:68%; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; gap:8px; padding:10px 12px; border-radius:12px; background:rgba(0,0,0,.22); border:1px solid rgba(255,255,255,.06); backdrop-filter: blur(6px); z-index:1 }
+.dealer-seat{ top:-10px }
+.player-seat{ bottom:-10px }
+
+.center-ui{ position:absolute; inset:auto; top:50%; left:50%; transform:translate(-50%, -50%); display:flex; flex-direction:column; align-items:center; gap:10px; width:56%; z-index:1 }
+.inline-controls{ display:flex; gap:10px }
+.inline-controls[hidden]{ display:none }
+
+@media (min-width: 768px){
+  .card{ width:78px; height:104px }
+  .cards{ min-height:104px }
+}
+
+/* Suarez maskotu (masanın sağında) */
+.mascot-suarez{ position:absolute; right:clamp(-140px, -12vw, -48px); top:50%; transform:translateY(-50%); width:min(30vw, 300px); z-index:2 }
+.mascot-suarez img{ display:block; width:100%; height:auto; filter:none }
+
+/* Konuşma balonu */
+.speech-bubble {
+  position: absolute;
+  right: 85%;
+  top: 25%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.85);
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 12px 16px;
+  max-width: 240px;
+  color: #f5d0fe;
+  font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0,0,0,.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  opacity: 0;
+  transition: .3s ease-out;
+  pointer-events: none;
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 10px solid transparent;
+  border-left-color: #8b5cf6;
+  filter: drop-shadow(2px 0 2px rgba(0,0,0,.2));
+}
+
+.speech-bubble.show {
+  opacity: 1;
+  transform: translateY(-50%);
+}
+
+.speech-bubble p {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+
